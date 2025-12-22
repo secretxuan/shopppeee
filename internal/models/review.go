@@ -19,8 +19,12 @@ type Review struct {
 	Rating    int    `gorm:"not null" json:"rating" binding:"required,gte=1,lte=5"`
 	Content   string `gorm:"type:text" json:"content"`
 	Images    string `gorm:"type:text" json:"images"` // JSON数组字符串
-	Status    string `gorm:"size:20;default:'pending'" json:"status"` // pending, approved, rejected
-
+	Status    string `gorm:"size:20;default:'published'" json:"status"` // published, hidden
+	
+	// 商家回复
+	Reply     string     `gorm:"type:text" json:"reply"`
+	RepliedAt *time.Time `json:"replied_at"`
+	
 	// 关联
 	User    *User    `gorm:"foreignKey:UserID" json:"user,omitempty"`
 	Product *Product `gorm:"foreignKey:ProductID" json:"product,omitempty"`

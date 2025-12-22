@@ -1,3 +1,4 @@
+# 包含前端的完整 Docker Compose 配置
 version: '3.8'
 
 services:
@@ -43,7 +44,7 @@ services:
       timeout: 3s
       retries: 5
 
-  # Go应用
+  # Go 后端应用
   app:
     build:
       context: .
@@ -88,7 +89,7 @@ services:
     networks:
       - shoppee-network
 
-  # 前端（可选，需要时启用）
+  # React 前端应用
   frontend:
     build:
       context: ./frontend
@@ -101,8 +102,6 @@ services:
       - app
     networks:
       - shoppee-network
-    profiles:
-      - with-frontend
 
 networks:
   shoppee-network:

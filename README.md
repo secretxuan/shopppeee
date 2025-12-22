@@ -1,392 +1,374 @@
-# Shoppee 电商系统
+# 🛍️ Shoppee 电商系统
 
-基于 Go 语言开发的高性能电商系统，采用 Gin + GORM + PostgreSQL + Redis 技术栈，支持高并发、分布式部署。
+<div align="center">
 
-## 🚀 核心功能
+**现代化、全栈、企业级电商平台**
 
-### 1. 高并发用户认证
-- JWT 令牌认证机制
-- Redis 缓存用户会话
-- 密码 bcrypt 加密存储
-- 支持角色权限控制（用户/管理员）
-- 登录失败限流保护
+[![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)](https://golang.org/)
+[![React](https://img.shields.io/badge/React-18+-61DAFB?style=flat&logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-336791?style=flat&logo=postgresql)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-7+-DC382D?style=flat&logo=redis)](https://redis.io/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat&logo=docker)](https://www.docker.com/)
 
-### 2. 批量数据处理（Go 协程优化）
-- 商品批量导入（协程池处理）
-- 库存批量更新（悲观锁防止超卖）
-- 支持 10 worker 协程池并发处理
-- 事务保证数据一致性
+</div>
 
-### 3. 实时消息推送（WebSocket）
-- 订单状态实时通知
-- 促销活动广播
-- 库存预警推送
-- 支持按用户定向推送
-- 心跳检测保持连接
+---
 
-## 📋 技术栈
+## ✨ 项目亮点
 
-### 后端框架
-- **Gin** - 高性能 HTTP Web 框架
-- **GORM** - ORM 框架（v2）
-- **Viper** - 配置管理
-- **Zap** - 高性能日志库
-- **JWT** - 认证授权
-- **Gorilla WebSocket** - WebSocket 支持
+- 🎯 **完整的电商业务流程** - 从商品浏览到订单完成的全链路
+- 🔐 **企业级认证授权** - JWT + 角色权限管理
+- 📦 **库存防超卖** - 悲观锁 + 事务保证数据一致性
+- ⚡ **高性能缓存** - Redis 缓存热点数据
+- 🎨 **现代化UI** - React + Ant Design 响应式设计
+- 🐳 **容器化部署** - Docker Compose 一键启动
+- 📊 **完善的后台管理** - 商品、订单、用户全方位管理
 
-### 数据库
-- **PostgreSQL 15** - 主数据库
-- **Redis 7** - 缓存 + 限流
+---
 
-### 工具链
-- **Docker** - 容器化部署
-- **Docker Compose** - 服务编排
-- **Makefile** - 自动化构建
-- **Go Modules** - 依赖管理
+## 🏗️ 技术栈
 
-## 🏗️ 项目结构
+### 后端
+- **框架**: Gin (Go Web框架)
+- **ORM**: GORM v2
+- **数据库**: PostgreSQL 15
+- **缓存**: Redis 7
+- **认证**: JWT
+- **实时通信**: WebSocket
+- **日志**: Zap
+- **配置**: Viper
 
-```
-shoppee/
-├── cmd/                    # 应用入口
-│   └── api/
-│       └── main.go        # 主程序
-├── internal/              # 内部代码
-│   ├── config/           # 配置管理
-│   ├── database/         # 数据库连接
-│   ├── handler/          # HTTP 处理器
-│   ├── middleware/       # 中间件
-│   ├── models/           # 数据模型
-│   ├── router/           # 路由配置
-│   ├── service/          # 业务逻辑
-│   └── websocket/        # WebSocket 服务
-├── pkg/                   # 公共库
-│   ├── jwt/              # JWT 工具
-│   ├── logger/           # 日志工具
-│   └── response/         # 响应封装
-├── scripts/              # 脚本文件
-│   └── init.sql          # 数据库初始化
-├── Dockerfile            # Docker 镜像构建
-├── docker-compose.yml    # Docker 编排配置
-├── Makefile             # 自动化构建
-├── go.mod               # Go 依赖
-└── README.md            # 项目文档
-```
+### 前端
+- **框架**: React 18 + TypeScript
+- **UI库**: Ant Design 5
+- **路由**: React Router 6
+- **状态管理**: Zustand
+- **HTTP**: Axios
+- **构建工具**: Vite
 
-## 🔧 快速开始
+### 基础设施
+- **容器化**: Docker + Docker Compose
+- **代理**: Nginx (生产环境)
+
+---
+
+## 📋 核心功能
+
+### 用户端功能
+- ✅ 用户注册/登录
+- ✅ 商品浏览/搜索
+- ✅ 购物车管理
+- ✅ 收货地址管理
+- ✅ 下单支付
+- ✅ 订单管理
+- ✅ 商品评价
+- ✅ 个人中心
+
+### 管理端功能
+- ✅ 商品管理（CRUD）
+- ✅ 分类管理
+- ✅ 订单管理
+- ✅ 库存管理
+- ✅ 评价管理
+- ✅ 用户管理
+
+---
+
+## 🚀 快速开始
 
 ### 前置要求
-- Go 1.21+
 - Docker & Docker Compose
-- PostgreSQL 15+（可选，Docker 已包含）
-- Redis 7+（可选，Docker 已包含）
+- Node.js 18+ (前端开发)
+- Go 1.21+ (后端开发，可选)
 
-### 1. 克隆项目
+### 一键启动
+
 ```bash
-git clone https://github.com/yourusername/shoppee.git
-cd shoppee
+# 克隆项目
+cd /data/workspace/shopppeee
+
+# 启动后端
+sudo docker compose up -d
+
+# 启动前端（新终端）
+cd frontend
+npm install
+npm run dev
 ```
 
-### 2. 配置环境变量
+**访问地址**:
+- 🎨 前端: http://localhost:3000
+- 🔧 后端API: http://localhost:8080
+- ❤️ 健康检查: http://localhost:8080/health
+
+### 初始化数据（可选）
+
 ```bash
-cp .env.example .env
-# 编辑 .env 修改配置
+# 导入测试数据
+sudo docker exec -i shoppee-postgres psql -U postgres -d shoppee < init_data.sql
 ```
 
-### 3. 使用 Docker Compose 启动（推荐）
+---
+
+## 📖 文档
+
+- 📘 [快速启动指南](QUICK_START.md) - 5分钟启动项目
+- 📗 [完成报告](COMPLETION_REPORT.md) - 详细功能列表和API文档
+- 📙 [前端指南](frontend/README.md) - 前端开发说明
+
+---
+
+## 🎯 如何上架商品
+
+### 方法一：使用管理后台（推荐）
+
+1. 登录管理员账号
+2. 访问 http://localhost:3000/admin/products
+3. 点击"添加商品"
+4. 填写商品信息并保存
+
+### 方法二：使用API
+
 ```bash
-# 启动所有服务（PostgreSQL + Redis + App）
-make docker-up
+curl -X POST http://localhost:8080/api/v1/products \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "name": "iPhone 15 Pro",
+    "description": "最新款苹果手机",
+    "price": 7999.00,
+    "stock": 50,
+    "sku": "IPHONE15PRO-001",
+    "category_id": 1,
+    "status": "active"
+  }'
+```
+
+### 方法三：直接操作数据库
+
+```sql
+INSERT INTO products (name, description, price, stock, sku, category_id, status, created_at, updated_at)
+VALUES ('测试商品', '商品描述', 99.99, 100, 'TEST-001', 1, 'active', NOW(), NOW());
+```
+
+---
+
+## 🧪 API 测试
+
+```bash
+# 运行API测试脚本
+./test_api.sh
+```
+
+### 核心API端点
+
+#### 认证
+- `POST /api/v1/auth/register` - 用户注册
+- `POST /api/v1/auth/login` - 用户登录
+- `GET /api/v1/auth/me` - 获取当前用户
+
+#### 商品
+- `GET /api/v1/products` - 商品列表
+- `GET /api/v1/products/:id` - 商品详情
+- `GET /api/v1/products/search` - 搜索商品
+- `POST /api/v1/products` - 创建商品（管理员）
+
+#### 购物车
+- `GET /api/v1/cart` - 获取购物车
+- `POST /api/v1/cart/items` - 添加商品
+- `PUT /api/v1/cart/items/:id` - 更新数量
+- `DELETE /api/v1/cart/items/:id` - 删除商品
+
+#### 订单
+- `POST /api/v1/orders` - 创建订单
+- `GET /api/v1/orders` - 订单列表
+- `GET /api/v1/orders/:id` - 订单详情
+- `POST /api/v1/orders/:id/cancel` - 取消订单
+
+[查看完整API文档](COMPLETION_REPORT.md#-api-文档总览)
+
+---
+
+## 📁 项目结构
+
+```
+shopppeee/
+├── cmd/                    # 应用入口
+├── internal/              # 内部代码
+│   ├── handler/          # HTTP处理器
+│   ├── service/          # 业务逻辑
+│   ├── models/           # 数据模型
+│   ├── router/           # 路由配置
+│   ├── middleware/       # 中间件
+│   └── database/         # 数据库
+├── frontend/             # 前端项目
+│   ├── src/
+│   │   ├── api/         # API接口
+│   │   ├── pages/       # 页面组件
+│   │   ├── components/  # 通用组件
+│   │   └── store/       # 状态管理
+│   └── package.json
+├── docker-compose.yml    # Docker编排
+├── Dockerfile           # 后端镜像
+└── README.md
+```
+
+---
+
+## 🛠️ 开发
+
+### 后端开发
+
+```bash
+# 安装依赖
+go mod download
+
+# 运行开发服务器
+go run cmd/api/main.go
+
+# 构建
+go build -o shoppee cmd/api/main.go
+```
+
+### 前端开发
+
+```bash
+cd frontend
+
+# 安装依赖
+npm install
+
+# 开发模式
+npm run dev
+
+# 构建生产版本
+npm run build
+
+# 预览生产版本
+npm run preview
+```
+
+---
+
+## 🐳 Docker 部署
+
+### 开发环境
+
+```bash
+# 启动所有服务
+docker compose up -d
 
 # 查看日志
-make docker-logs
+docker compose logs -f
 
 # 停止服务
-make docker-down
+docker compose down
 ```
 
-### 4. 本地开发模式
-```bash
-# 下载依赖
-make deps
-
-# 启动数据库（Docker）
-docker-compose up -d postgres redis
-
-# 运行应用
-make run
-
-# 或使用热重载（需安装 air）
-make dev
-```
-
-### 5. 编译部署
-```bash
-# 编译当前平台
-make build
-
-# 编译 Linux 版本
-make build-linux
-
-# 编译所有平台
-make build-all
-```
-
-## 📡 API 文档
-
-### 认证相关
-
-#### 用户注册
-```http
-POST /api/v1/auth/register
-Content-Type: application/json
-
-{
-  "username": "testuser",
-  "email": "test@example.com",
-  "password": "password123",
-  "phone": "13800138000"
-}
-```
-
-#### 用户登录
-```http
-POST /api/v1/auth/login
-Content-Type: application/json
-
-{
-  "username": "testuser",
-  "password": "password123"
-}
-```
-
-响应：
-```json
-{
-  "code": 0,
-  "message": "success",
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIs...",
-    "expires_at": 1702886400,
-    "user": {
-      "id": 1,
-      "username": "testuser",
-      "email": "test@example.com"
-    }
-  }
-}
-```
-
-#### 获取用户信息
-```http
-GET /api/v1/auth/me
-Authorization: Bearer <token>
-```
-
-### 商品相关
-
-#### 获取商品列表
-```http
-GET /api/v1/products?page=1&page_size=20&category_id=1&sort=price_asc
-```
-
-#### 获取商品详情
-```http
-GET /api/v1/products/{id}
-```
-
-#### 搜索商品
-```http
-GET /api/v1/products/search?keyword=手机&page=1
-```
-
-#### 批量更新库存（需管理员权限）
-```http
-POST /api/v1/products/batch-stock
-Authorization: Bearer <admin_token>
-Content-Type: application/json
-
-{
-  "1": -10,
-  "2": 20,
-  "3": -5
-}
-```
-
-### WebSocket 连接
-
-```javascript
-// 连接 WebSocket（需要先登录获取 token）
-const ws = new WebSocket('ws://localhost:8080/ws?token=<your_jwt_token>');
-
-// 接收消息
-ws.onmessage = (event) => {
-  const message = JSON.parse(event.data);
-  console.log('收到消息:', message);
-  // message.type: system, order, promotion, stock_alert
-};
-
-// 发送心跳
-ws.send(JSON.stringify({ type: 'ping' }));
-```
-
-## 🔐 数据库设计
-
-### 核心表结构
-
-**users** - 用户表
-- id, username, email, password, role, status, last_login
-
-**products** - 商品表
-- id, name, description, price, stock, sku, category_id, status
-
-**orders** - 订单表
-- id, order_no, user_id, total_amount, status, pay_status
-
-**order_items** - 订单项表
-- id, order_id, product_id, quantity, price
-
-**carts** - 购物车表
-- id, user_id
-
-**cart_items** - 购物车项表
-- id, cart_id, product_id, quantity
-
-详细 ER 图和字段说明请参考数据库模型文件。
-
-## ⚡ 性能优化
-
-### 1. 并发处理
-- 使用 Go 协程池处理批量任务
-- Worker Pool 模式（10 个 worker）
-- Channel 实现任务分发
-
-### 2. 数据库优化
-- 连接池配置（最大 100 连接）
-- 索引优化（分类、状态、用户等字段）
-- 悲观锁防止库存超卖
-- 事务保证数据一致性
-
-### 3. 缓存策略
-- Redis 缓存用户信息（7 天）
-- 商品详情缓存（1 小时）
-- 滑动窗口限流
-
-### 4. 镜像优化
-- 多阶段构建（编译阶段 + 运行阶段）
-- 最终镜像基于 Alpine（< 20MB）
-- 静态编译（CGO_ENABLED=0）
-
-## 🧪 测试
+### 生产环境
 
 ```bash
-# 运行所有测试
-make test
-
-# 生成覆盖率报告
-make test-coverage
-
-# 性能基准测试
-go test -bench=. -benchmem ./...
+# 包含前端的完整部署
+docker compose -f docker-compose.frontend.yml up -d
 ```
 
-## 📊 监控和日志
+---
 
-### 日志
-- 使用 Zap 高性能日志库
-- 支持控制台 + 文件双输出
-- JSON 格式便于日志收集
-- 日志文件路径：`./logs/app.log`
+## 📊 数据库
 
-### 健康检查
+### 数据模型
+
+- `users` - 用户表
+- `products` - 商品表
+- `categories` - 分类表
+- `carts` - 购物车表
+- `cart_items` - 购物车项表
+- `addresses` - 收货地址表
+- `orders` - 订单表
+- `order_items` - 订单项表
+- `payments` - 支付表
+- `reviews` - 评价表
+
+### 数据库操作
+
 ```bash
-curl http://localhost:8080/health
+# 连接数据库
+docker exec -it shoppee-postgres psql -U postgres -d shoppee
+
+# 查看表
+\dt
+
+# 查询商品
+SELECT * FROM products LIMIT 10;
+
+# 退出
+\q
 ```
 
-## 🚢 部署
+---
 
-### Docker 部署
-```bash
-# 构建镜像
-make docker-build
+## 🎨 UI截图
 
-# 启动服务
-make docker-up
-```
+### 首页
+- 轮播图展示
+- 热门商品推荐
+- 分类导航
 
-### 生产环境配置
-1. 修改 `.env` 中的数据库密码和 JWT 密钥
-2. 配置 CORS 允许的域名
-3. 关闭 DEBUG 模式
-4. 配置反向代理（Nginx）
-5. 配置 HTTPS 证书
+### 商品列表
+- 搜索筛选
+- 排序功能
+- 分页展示
 
-### 交叉编译
-```bash
-# Linux AMD64
-make build-linux
+### 购物车
+- 商品管理
+- 数量调整
+- 实时总价
 
-# Windows AMD64
-make build-windows
+### 管理后台
+- 商品管理
+- 订单处理
+- 数据统计
 
-# macOS AMD64
-make build-mac
-```
+---
 
-## 🔒 安全特性
+## 🔒 安全
 
-- JWT 令牌认证
-- 密码 bcrypt 加密
-- SQL 注入防护（GORM 预处理）
-- XSS 防护
-- CORS 跨域控制
-- 请求频率限流
-- 参数验证（validator）
+- ✅ JWT 认证
+- ✅ 密码加密（bcrypt）
+- ✅ CORS 配置
+- ✅ SQL 注入防护（GORM）
+- ✅ XSS 防护
+- ✅ 请求限流
 
-## 📈 性能指标
-
-- 并发处理：支持 10000+ QPS
-- 响应时间：平均 < 50ms
-- 批量导入：1000 商品 < 5s
-- WebSocket：支持 10000+ 并发连接
-
-## 🛠️ 开发工具
-
-### 推荐 IDE
-- GoLand
-- VS Code + Go 插件
-
-### 代码规范
-```bash
-# 格式化代码
-make fmt
-
-# 代码检查
-make lint
-```
-
-## 📝 TODO
-
-- [ ] 订单管理模块完善
-- [ ] 支付接口集成
-- [ ] 评价系统优化
-- [ ] Elasticsearch 全文搜索
-- [ ] Prometheus + Grafana 监控
-- [ ] Kubernetes 部署配置
-- [ ] 前端管理系统（Vue3）
+---
 
 ## 🤝 贡献
 
-欢迎提交 Issue 和 Pull Request！
+欢迎贡献代码、报告问题或提出建议！
+
+---
 
 ## 📄 许可证
 
 MIT License
 
-## 👥 作者
+---
 
-Shoppee Team
+## 📞 联系方式
+
+- 项目地址: https://github.com/yourusername/shopppeee
+- 问题反馈: Issues
+- 邮箱: your@email.com
 
 ---
 
-**注意**：这是一个演示项目，生产环境部署前请务必修改默认密码和密钥！
+<div align="center">
+
+**感谢使用 Shoppee 电商系统！**
+
+⭐ 如果这个项目对你有帮助，请给个 Star！
+
+Made with ❤️ by [Your Name]
+
+</div>

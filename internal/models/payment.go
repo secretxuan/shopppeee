@@ -14,13 +14,19 @@ type Payment struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	OrderID       uint    `gorm:"uniqueIndex;not null" json:"order_id"`
-	TransactionNo string  `gorm:"size:100" json:"transaction_no"` // 第三方交易号
-	PayMethod     string  `gorm:"size:20;not null" json:"pay_method"`
-	PayAmount     float64 `gorm:"type:decimal(10,2);not null" json:"pay_amount"`
+	PaymentNo     string  `gorm:"uniqueIndex;size:50;not null" json:"payment_no"`
+	PaymentMethod string  `gorm:"size:20;not null" json:"payment_method"` // alipay, wechat, card
+	Amount        float64 `gorm:"type:decimal(10,2);not null" json:"amount"`
 	Status        string  `gorm:"size:20;default:'pending'" json:"status"` // pending, success, failed, refunded
 	PaidAt        *time.Time `json:"paid_at"`
 	RefundedAt    *time.Time `json:"refunded_at"`
-
+	
+	// 第三方支付信息
+	ThirdPartyNo string `gorm:"size:100" json:"third_party_no"` // 第三方交易号
+	
+	// 备注
+	Remark string `gorm:"type:text" json:"remark"`
+	
 	// 关联
 	Order *Order `gorm:"foreignKey:OrderID" json:"order,omitempty"`
 }

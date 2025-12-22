@@ -14,7 +14,7 @@ type Cart struct {
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 
 	UserID uint `gorm:"uniqueIndex;not null" json:"user_id"`
-
+	
 	// 关联
 	User      *User      `gorm:"foreignKey:UserID" json:"user,omitempty"`
 	CartItems []CartItem `gorm:"foreignKey:CartID" json:"cart_items,omitempty"`
@@ -34,9 +34,9 @@ type CartItem struct {
 
 	CartID    uint `gorm:"index;not null" json:"cart_id"`
 	ProductID uint `gorm:"index;not null" json:"product_id"`
-	Quantity  int  `gorm:"not null;default:1" json:"quantity" binding:"required,gt=0"`
-	Selected  bool `gorm:"default:true" json:"selected"` // 是否选中
-
+	Quantity  int  `gorm:"not null;default:1" json:"quantity"`
+	Selected  bool `gorm:"default:true" json:"selected"` // 是否选中（用于结算）
+	
 	// 关联
 	Cart    *Cart    `gorm:"foreignKey:CartID" json:"cart,omitempty"`
 	Product *Product `gorm:"foreignKey:ProductID" json:"product,omitempty"`

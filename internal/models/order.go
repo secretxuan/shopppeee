@@ -16,23 +16,22 @@ type Order struct {
 	OrderNo     string  `gorm:"uniqueIndex;size:50;not null" json:"order_no"`
 	UserID      uint    `gorm:"index;not null" json:"user_id"`
 	TotalAmount float64 `gorm:"type:decimal(10,2);not null" json:"total_amount"`
-	PayAmount   float64 `gorm:"type:decimal(10,2);not null" json:"pay_amount"`
 	Status      string  `gorm:"size:20;default:'pending';index" json:"status"` // pending, paid, shipped, completed, cancelled
-	PayStatus   string  `gorm:"size:20;default:'unpaid'" json:"pay_status"`    // unpaid, paid, refunded
-	PayMethod   string  `gorm:"size:20" json:"pay_method"`                     // alipay, wechat, credit_card
-	Remark      string  `gorm:"type:text" json:"remark"`
-
-	// 收货信息
-	ReceiverName    string `gorm:"size:50" json:"receiver_name"`
-	ReceiverPhone   string `gorm:"size:20" json:"receiver_phone"`
-	ReceiverAddress string `gorm:"size:255" json:"receiver_address"`
-
-	// 时间字段
+	PaymentMethod string `gorm:"size:20" json:"payment_method"` // alipay, wechat, card
+	PaymentStatus string `gorm:"size:20;default:'unpaid'" json:"payment_status"` // unpaid, paid, refunded
 	PaidAt      *time.Time `json:"paid_at"`
 	ShippedAt   *time.Time `json:"shipped_at"`
 	CompletedAt *time.Time `json:"completed_at"`
 	CancelledAt *time.Time `json:"cancelled_at"`
-
+	
+	// 收货信息
+	ReceiverName    string `gorm:"size:50" json:"receiver_name"`
+	ReceiverPhone   string `gorm:"size:20" json:"receiver_phone"`
+	ReceiverAddress string `gorm:"size:255" json:"receiver_address"`
+	
+	// 备注
+	Remark string `gorm:"type:text" json:"remark"`
+	
 	// 关联
 	User       *User       `gorm:"foreignKey:UserID" json:"user,omitempty"`
 	OrderItems []OrderItem `gorm:"foreignKey:OrderID" json:"order_items,omitempty"`
@@ -53,15 +52,15 @@ type OrderItem struct {
 
 	OrderID   uint    `gorm:"index;not null" json:"order_id"`
 	ProductID uint    `gorm:"index;not null" json:"product_id"`
-	Quantity  int     `gorm:"not null" json:"quantity" binding:"required,gt=0"`
+	Quantity  int     `gorm:"not null" json:"quantity"`
 	Price     float64 `gorm:"type:decimal(10,2);not null" json:"price"`
-	TotalPrice float64 `gorm:"type:decimal(10,2);not null" json:"total_price"`
-
-	// 快照字段（防止商品信息变更）
+	SubTotal  float64 `gorm:"type:decimal(10,2);not null" json:"sub_total"`
+	
+	// 快照数据（防止商品信息变更）
 	ProductName  string `gorm:"size:200" json:"product_name"`
 	ProductImage string `gorm:"size:255" json:"product_image"`
 	ProductSKU   string `gorm:"size:100" json:"product_sku"`
-
+	
 	// 关联
 	Order   *Order   `gorm:"foreignKey:OrderID" json:"order,omitempty"`
 	Product *Product `gorm:"foreignKey:ProductID" json:"product,omitempty"`

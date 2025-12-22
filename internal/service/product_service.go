@@ -302,3 +302,91 @@ func (s *ProductService) SearchProducts(keyword string, page, pageSize int) ([]m
 
 	return products, total, nil
 }
+
+// CreateProduct 创建商品
+func (s *ProductService) CreateProduct(req interface{}) (*models.Product, error) {
+	reqMap, ok := req.(map[string]interface{})
+	if !ok {
+		return nil, errors.New("无效的请求数据")
+	}
+
+	product := &models.Product{
+		Name:        reqMap["name"].(string),
+		Description: reqMap["description"].(string),
+		Price:       reqMap["price"].(float64),
+		Stock:       int(reqMap["stock"].(float64)),
+		SKU:         reqMap["sku"].(string),
+		CategoryID:  uint(reqMap["category_id"].(float64)),
+		Status:      "active",
+	}
+
+	if origPrice, ok := reqMap["orig_price"].(float64); ok {
+		product.OrigPrice = origPrice
+	}
+
+	if status, ok := reqMap["status"].(string); ok {
+		product.Status = status
+	}
+
+	if err := database.DB.Create(product).Error; err != nil {
+		return nil, err
+	}
+
+	logger.Info("创建商品成功", zap.Uint("product_id", product.ID))
+	return product, nil
+}
+
+// UpdateProduct 更新商品
+func (s *ProductService) UpdateProduct(id uint, updates map[string]interface{}) error {
+	var product models.Product
+	if err := database.DB.First(&product, id).Error; err != nil {
+		return err
+	}
+
+	if err := database.DB.Model(&product).Updates(updates).Error; err != nil {
+		return err
+	}
+
+	// 清除缓存
+	ctx := context.Background()
+	cacheKey := fmt.Sprintf("product:%d", id)
+	database.RedisClient.Del(ctx, cacheKey)
+
+	logger.Info("更新商品成功", zap.Uint("product_id", id))
+	return nil
+}
+
+// DeleteProduct 删除商品（软删除）
+func (s *ProductService) DeleteProduct(id uint) error {
+	var product models.Product
+	if err := database.DB.First(&product, id).Error; err != nil {
+		return err
+	}
+
+	if err := database.DB.Delete(&product).Error; err != nil {
+		return err
+	}
+
+	// 清除缓存
+	ctx := context.Background()
+	cacheKey := fmt.Sprintf("product:%d", id)
+	database.RedisClient.Del(ctx, cacheKey)
+
+	logger.Info("删除商品成功", zap.Uint("product_id", id))
+	return nil
+}
+
+// UpdateProductStatus 更新商品状态
+func (s *ProductService) UpdateProductStatus(id uint, status string) error {
+	if err := database.DB.Model(&models.Product{}).Where("id = ?", id).Update("status", status).Error; err != nil {
+		return err
+	}
+
+	// 清除缓存
+	ctx := context.Background()
+	cacheKey := fmt.Sprintf("product:%d", id)
+	database.RedisClient.Del(ctx, cacheKey)
+
+	logger.Info("更新商品状态成功", zap.Uint("product_id", id), zap.String("status", status))
+	return nil
+}

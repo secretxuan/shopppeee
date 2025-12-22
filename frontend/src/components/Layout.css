@@ -1,0 +1,125 @@
+.layout {
+  min-height: 100vh;
+}
+
+.header {
+  background: #336699;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.3s;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.menu {
+  flex: 1;
+  background: transparent;
+  border: none;
+  margin: 0 40px;
+}
+
+.menu .ant-menu-item {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.menu .ant-menu-item-selected {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+}
+
+.menu .ant-menu-item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+}
+
+.user-dropdown {
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.user-dropdown:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.username {
+  margin-left: 8px;
+  font-size: 14px;
+}
+
+.content {
+  padding: 24px 0;
+  min-height: calc(100vh - 64px - 70px);
+  background: #f5f5f5;
+}
+
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.footer {
+  background: #001529;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+}
+
+.footer-content p {
+  margin: 4px 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 16px;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .logo span {
+    display: none;
+  }
+
+  .username {
+    display: none;
+  }
+
+  .content-wrapper {
+    padding: 0 16px;
+  }
+}
